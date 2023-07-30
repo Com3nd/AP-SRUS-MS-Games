@@ -4,8 +4,8 @@ from player import Player
 class PlayerNode:
     """A node for the player to occupy or use to traverse"""
     
-    def __init__(self, player):
-        self._player = player
+    def __init__(self, uid: str, name: str):
+        self._player = Player(uid, name)
         self._next_node = None
         self._prev_node = None
         self._key = None
@@ -43,6 +43,8 @@ class PlayerNode:
 
     def __str__(self):
         if isinstance(self._player, Player):
-            return f"Player in Node: {self._player.name}"
+            return f"{self._player.name}"
 
-        return "This node does not contain a player"
+    def __repr__(self):
+        if isinstance(self._player, Player):
+            return f"{self.player.name}"
