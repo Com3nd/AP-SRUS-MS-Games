@@ -51,12 +51,21 @@ class PlayerList:
             self.tail = node
             return
 
+    def delete_head(self):
+        self.head = self.head.next_node
+        self.head.prev_node = None
+
+    def delete_tail(self):
+        self.tail = self.tail.prev_node
+        self.tail.next_node = None
+
     def to_list(self):
         if self.head is None:
             return []
 
         node_list = [self.head]
         current_node = self.head
+
         while current_node.next_node is not None:
             node_list.append(current_node.next_node)
             current_node = current_node.next_node
@@ -70,6 +79,10 @@ if __name__ == '__main__':
     player_list.add_node("02", "Melissa")
     player_list.add_node("03", "Jonghun")
     player_list.add_node("04", "raf")
-    print("\n".join(str(player) for player in player_list.to_list()))
+    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
+    player_list.delete_head()
+    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
+    player_list.delete_tail()
+    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
 
 
