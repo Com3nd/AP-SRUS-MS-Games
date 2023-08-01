@@ -1,4 +1,5 @@
 from player import Player
+from typing import Optional
 
 
 class PlayerNode:
@@ -6,9 +7,9 @@ class PlayerNode:
     
     def __init__(self, uid: str, name: str):
         self._player = Player(uid, name)
-        self._next_node = None
-        self._prev_node = None
-        self._key = None
+        self._next_node: Optional[PlayerNode] = None
+        self._prev_node: Optional[PlayerNode] = None
+        self._key: Optional[str] = None
 
     @property
     def player(self):
@@ -25,7 +26,8 @@ class PlayerNode:
     @player.setter
     def player(self, value):
         self._player = value
-        # Set the value of the 'key' to the player's 'uid' when a player to set for the 'player' property
+        # Set the value of the 'key' to the player's 'uid'
+        # when a player to set for the 'player' property
         if isinstance(value, Player):
             self._key = self._player.uid
 
@@ -39,7 +41,7 @@ class PlayerNode:
 
     @property
     def key(self):
-        return self._key
+        return self.player.uid
 
     def __str__(self):
         if isinstance(self._player, Player):
