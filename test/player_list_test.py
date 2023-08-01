@@ -44,6 +44,39 @@ class TestPlayerList(unittest.TestCase):
         # Check if the new tail has the 'uid' of "02"
         self.assertEqual(self.player_list.tail.key, "02")
 
+    def test_delete_head_by_value(self):
+        self.player_list.add_node("01", "Mustafa")
+        self.player_list.add_node("02", "Melissa")
+        self.player_list.add_node("03", "Jonghun")
+
+        # Delete head using the delete method
+        self.player_list.delete("01")
+
+        # Check if the new head has the 'uid' of "02"
+        self.assertEqual(self.player_list.head.key, "02")
+
+    def test_delete_tail_by_value(self):
+        self.player_list.add_node("01", "Mustafa")
+        self.player_list.add_node("02", "Melissa")
+        self.player_list.add_node("03", "Jonghun")
+
+        # Delete tail using the delete method
+        self.player_list.delete("03")
+
+        # Check if the new tail has the 'uid' of "02"
+        self.assertEqual(self.player_list.tail.key, "02")
+
+    def test_delete_node_by_value(self):
+        self.player_list.add_node("01", "Mustafa")
+        self.player_list.add_node("02", "Melissa")
+        self.player_list.add_node("03", "Jonghun")
+
+        # Delete middle node using the delete method
+        self.player_list.delete("02")
+
+        # Check if the middle node has been deleted by checking the next node of the head
+        self.assertEqual(self.player_list.head.next_node.key, "03")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class PlayerList:
-    """To be added"""
+    """A double linked list that contains player nodes"""
 
     def __init__(self, node_list: Optional[tuple[str]] = None):
         self._head: Optional[PlayerNode] = None
@@ -59,6 +59,34 @@ class PlayerList:
         self.tail = self.tail.prev_node
         self.tail.next_node = None
 
+    def delete(self, key_value: str):
+        node_to_delete: PlayerNode = self.head
+
+        while True:
+            if node_to_delete.key == key_value.strip():
+                # Set the next node's pointer of the current node to current node's previous node and vise versa
+                # Using if statements to avoid crashing when deleting the head or tail
+
+                if node_to_delete.next_node:
+                    node_to_delete.next_node.prev_node = node_to_delete.prev_node
+
+                else:  # Runs when the node to delete is the tail of the list
+                    self.tail = node_to_delete.prev_node
+
+                if node_to_delete.prev_node:
+                    node_to_delete.prev_node.next_node = node_to_delete.next_node
+
+                else:  # Runs when the node to delete is the head of the list
+                    self.head = node_to_delete.next_node
+
+                return True
+
+            if node_to_delete.next_node:
+                node_to_delete = node_to_delete.next_node
+                continue
+
+            return False
+
     def to_list(self):
         if self.head is None:
             return []
@@ -80,9 +108,8 @@ if __name__ == '__main__':
     player_list.add_node("03", "Jonghun")
     player_list.add_node("04", "raf")
     print("\n".join(str(player) for player in player_list.to_list()) + "\n")
-    player_list.delete_head()
-    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
-    player_list.delete_tail()
+
+    player_list.delete("03")
     print("\n".join(str(player) for player in player_list.to_list()) + "\n")
 
 
