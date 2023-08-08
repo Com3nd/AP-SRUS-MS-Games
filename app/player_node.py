@@ -9,7 +9,6 @@ class PlayerNode:
         self._player = player
         self._next_node: Optional[PlayerNode] = None
         self._prev_node: Optional[PlayerNode] = None
-        self._key: Optional[str] = None
 
     @property
     def player(self):
@@ -26,10 +25,6 @@ class PlayerNode:
     @player.setter
     def player(self, value):
         self._player = value
-        # Set the value of the 'key' to the player's 'uid'
-        # when a player to set for the 'player' property
-        if isinstance(value, Player):
-            self._key = self._player.uid
 
     @next_node.setter
     def next_node(self, value):
