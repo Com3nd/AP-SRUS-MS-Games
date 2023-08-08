@@ -113,7 +113,7 @@ class PlayerList:
             node_list.append(current_node.prev_node)
             current_node = current_node.prev_node
 
-        return " <- ".join(nodes.player.name for nodes in node_list)
+        return " -> ".join(nodes.player.name for nodes in node_list)
 
     def display(self, forward: bool = True):
         print(self.__str__(forward))
