@@ -1,3 +1,4 @@
+import player_node
 from player_node import PlayerNode
 from typing import Optional
 
@@ -31,7 +32,7 @@ class PlayerList:
         return not bool(self.head)
 
     def add_node(self, uid: str, name: str):
-        node = PlayerNode(uid, name)
+        node = PlayerNode(player_node.Player(uid, name))
         if self.head is None:
             self.head = node
             return
