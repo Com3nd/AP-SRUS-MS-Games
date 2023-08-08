@@ -26,6 +26,7 @@ class TestPlayerList(unittest.TestCase):
     def test_delete_head(self):
         self.player_list.add_node("01", "Mustafa")
         self.player_list.add_node("02", "Melissa")
+        self.player_list.add_node("03", "Jonghun")
 
         # Delete head
         self.player_list.delete_head()

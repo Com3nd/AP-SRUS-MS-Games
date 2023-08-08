@@ -49,7 +49,7 @@ class PlayerList:
             # node
             current_node.next_node = node
             current_node.next_node.prev_node = current_node
-            self.tail = node
+            self._tail = node
             return
 
     def delete_head(self):
@@ -57,8 +57,8 @@ class PlayerList:
         self.head.prev_node = None
 
     def delete_tail(self):
-        self.tail = self.tail.prev_node
-        self.tail.next_node = None
+        self._tail = self.tail.prev_node
+        self._tail.next_node = None
 
     def delete(self, key_value: str):
         node_to_delete: PlayerNode = self.head
@@ -68,12 +68,14 @@ class PlayerList:
                 # Set the next node's pointer of the current node to current node's previous node and vise versa
                 # Using if statements to avoid crashing when deleting the head or tail
 
+                # if the node_to_delete isn't the tail
                 if node_to_delete.next_node:
                     node_to_delete.next_node.prev_node = node_to_delete.prev_node
 
                 else:  # Runs when the node to delete is the tail of the list
                     self.tail = node_to_delete.prev_node
 
+                # if the node_to_delete isn't the head
                 if node_to_delete.prev_node:
                     node_to_delete.prev_node.next_node = node_to_delete.next_node
 
@@ -88,29 +90,30 @@ class PlayerList:
 
             return False
 
-    def to_list(self):
+    def __str__(self, forward: bool = True):
+
         if self.head is None:
-            return []
+            raise Exception("List is emtpy")
 
-        node_list = [self.head]
-        current_node = self.head
+        if forward:
 
-        while current_node.next_node is not None:
-            node_list.append(current_node.next_node)
-            current_node = current_node.next_node
+            node_list = [self.head]
+            current_node = self.head
 
-        return node_list
+            while current_node.next_node is not None:
+                node_list.append(current_node.next_node)
+                current_node = current_node.next_node
 
+            return " -> ".join(nodes.player.name for nodes in node_list)
 
-if __name__ == '__main__':
-    player_list = PlayerList()
-    player_list.add_node("01", "Mustafa")
-    player_list.add_node("02", "Melissa")
-    player_list.add_node("03", "Jonghun")
-    player_list.add_node("04", "raf")
-    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
+        node_list = [self.tail]
+        current_node = self.tail
 
-    player_list.delete("03")
-    print("\n".join(str(player) for player in player_list.to_list()) + "\n")
+        while current_node.prev_node is not None:
+            node_list.append(current_node.prev_node)
+            current_node = current_node.prev_node
 
+        return " <- ".join(nodes.player.name for nodes in node_list)
 
+    def display(self, forward: bool = True):
+        print(self.__str__(forward))
