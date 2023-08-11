@@ -68,22 +68,21 @@ class PlayerList:
                 # Set the next node's pointer of the current node to current node's previous node and vise versa
                 # Using if statements to avoid crashing when deleting the head or tail
 
-                # if the node_to_delete isn't the tail
-                if node_to_delete.next_node:
+                # if the node_to_delete is the tail
+                if not node_to_delete.next_node:
+                    self.delete_tail()
+                    return True
+
+                # if the node_to_delete is the head
+                if not node_to_delete.prev_node:
+                    self.delete_head()
+                    return True
+
+                else:  # Runs when the node isn't a head nor a tail node.
                     node_to_delete.next_node.prev_node = node_to_delete.prev_node
-
-                else:  # Runs when the node to delete is the tail of the list
-                    self.tail = node_to_delete.prev_node
-
-                # if the node_to_delete isn't the head
-                if node_to_delete.prev_node:
                     node_to_delete.prev_node.next_node = node_to_delete.next_node
 
-                else:  # Runs when the node to delete is the head of the list
-                    self.head = node_to_delete.next_node
-
                 return True
-
             if node_to_delete.next_node:
                 node_to_delete = node_to_delete.next_node
                 continue
