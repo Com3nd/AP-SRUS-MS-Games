@@ -6,11 +6,11 @@ from typing import Optional
 class PlayerList:
     """A double linked list that contains player nodes"""
 
-    def __init__(self, node_list: Optional[tuple[str]] = None):
+    def __init__(self, node_list: Optional[list[tuple[str, str]]] = None):
         self._head: Optional[PlayerNode] = None
         self._tail: Optional[PlayerNode] = None
         if node_list:
-            [self.add_node(node[0], node[1]) for node in node_list]
+            [self.add_node(uid, name) for uid, name in node_list]
 
     @property
     def head(self):
@@ -60,7 +60,7 @@ class PlayerList:
         self._tail = self.tail.prev_node
         self._tail.next_node = None
 
-    def delete(self, key_value: str):
+    def delete(self, key_value: str) -> bool:
         node_to_delete: PlayerNode = self.head
 
         while True:
@@ -89,30 +89,28 @@ class PlayerList:
 
             return False
 
-    def __str__(self, forward: bool = True):
+    def to_list(self, is_forward: bool = True) -> list:
+        nodes = []
 
-        if self.head is None:
-            raise Exception("List is emtpy")
+        current_node = self.head if is_forward else self.tail
+        nodes.append(current_node)
 
-        if forward:
+        next_node = lambda p: p.next_node if is_forward else p.prev_node
 
-            node_list = [self.head]
-            current_node = self.head
+        while next_node(current_node):
+            nodes.append(next_node(current_node))
+            current_node = next_node(current_node)
 
-            while current_node.next_node is not None:
-                node_list.append(current_node.next_node)
-                current_node = current_node.next_node
+        return nodes
 
-            return " -> ".join(nodes.player.name for nodes in node_list)
+    def display(self, is_forward: bool = True):
+        print(" --> ".join(node.player.name for node in self.to_list(is_forward)))
 
-        node_list = [self.tail]
-        current_node = self.tail
+    def __str__(self):
+        return " --> ".join(node.player.name for node in self.to_list())
 
-        while current_node.prev_node is not None:
-            node_list.append(current_node.prev_node)
-            current_node = current_node.prev_node
 
-        return " -> ".join(nodes.player.name for nodes in node_list)
-
-    def display(self, forward: bool = True):
-        print(self.__str__(forward))
+if __name__ == '__main__':
+    player_list = PlayerList([("01", "Mustafa"), ("02", "Melissa"), ("03", "Jonghun")])
+    player_list.display()
+    player_list.display(False)

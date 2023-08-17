@@ -4,7 +4,7 @@ from typing import Optional
 
 class PlayerNode:
     """A node for the player to occupy or use to traverse"""
-    
+
     def __init__(self, player: Optional[Player] = None):
         self._player = player
         self._next_node: Optional[PlayerNode] = None
@@ -38,10 +38,8 @@ class PlayerNode:
     def key(self):
         return self.player.uid
 
-    def __str__(self):
-        if isinstance(self._player, Player):
-            return f"{self._player.name}"
-
     def __repr__(self):
-        if isinstance(self._player, Player):
-            return f"{self.player.name}"
+        return f"{self.player.name}"
+
+    def __str__(self):
+        return f"{self._player.name}"
