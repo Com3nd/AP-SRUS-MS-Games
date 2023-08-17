@@ -23,9 +23,6 @@ class Player:
         self._hashed_password = self._ph.hash(password)
 
     def verify_password(self, password) -> bool:
-        # Note: I don't know if Assessment Task 2 asks us to use the verify method.
-
-        # return self._hashed_password == self._ph.hash(password)
         return self._ph.verify(self._hashed_password, password)  # type: ignore
 
     def __str__(self):
