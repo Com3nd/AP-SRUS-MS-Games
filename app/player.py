@@ -1,9 +1,15 @@
+from argon2 import PasswordHasher
+from typing import Optional
+
+
 class Player:
     """To be added"""
 
     def __init__(self, uid: str, name: str):
         self._uid: str = uid
         self._name: str = name
+        self._hashed_password: Optional[str] = None
+        self._ph = PasswordHasher()
 
     @property
     def uid(self):
@@ -12,6 +18,12 @@ class Player:
     @property
     def name(self):
         return self._name
+
+    def add_password(self, password: str):
+        self._hashed_password = self._ph.hash(password)
+
+    def verify_password(self, password) -> bool:
+        return self._ph.verify(self._hashed_password, password)  # type: ignore
 
     def __str__(self):
         return f"Name: {self.name}"

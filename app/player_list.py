@@ -16,13 +16,13 @@ class PlayerList:
     def head(self):
         return self._head
 
-    @property
-    def tail(self):
-        return self._tail
-
     @head.setter
     def head(self, value: Optional[PlayerNode]):
         self._head = value
+
+    @property
+    def tail(self):
+        return self._tail
 
     @tail.setter
     def tail(self, value: Optional[PlayerNode]):
