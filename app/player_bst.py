@@ -5,3 +5,6 @@ class PlayerBST:
     @property
     def root(self):
         return self.root
+
+    def insert(self, player_name):
+        ...

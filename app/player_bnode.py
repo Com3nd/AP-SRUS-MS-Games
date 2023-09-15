@@ -1,12 +1,13 @@
 from player import Player
+from player_bst import PlayerBST
 
 
 class PlayerBNode:
 
     def __init__(self, player: Player):
         self._player: Player = player
-        self._right: int = None
-        self._left: int = None
+        self._right: int = None  # Right is less than
+        self._left: int = None  # Left is greater
 
     @property
     def player(self):
