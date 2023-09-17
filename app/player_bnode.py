@@ -1,13 +1,13 @@
 from player import Player
-from player_bst import PlayerBST
+from typing import Optional
 
 
 class PlayerBNode:
 
     def __init__(self, player: Player):
         self._player: Player = player
-        self._right: int = None  # Right is less than
-        self._left: int = None  # Left is greater
+        self._right: Optional['PlayerBST'] = None  # type: ignore # Right is greater than
+        self._left: Optional['PlayerBST'] = None  # type: ignore # Left is greater than
 
     @property
     def player(self):

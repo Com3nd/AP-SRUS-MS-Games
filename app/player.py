@@ -37,7 +37,7 @@ class Player:
 
     @staticmethod
     def bubble_sort(players: list['Player']):
-        for x in players:
+        for _ in players:
             for index, player in enumerate(players):
                 if index != len(players) - 1 and player < players[index + 1]:
                     players[index] = players[index + 1]
