@@ -6,8 +6,8 @@ class PlayerBNode:
 
     def __init__(self, player: Player):
         self._player: Player = player
-        self._right: Optional['PlayerBST'] = None  # type: ignore # Right is greater than
-        self._left: Optional['PlayerBST'] = None  # type: ignore # Left is greater than
+        self._right: Optional[PlayerBNode] = None  # Right is greater than
+        self._left: Optional[PlayerBNode] = None  # Left is greater than
 
     @property
     def player(self):
@@ -28,3 +28,6 @@ class PlayerBNode:
     @left.setter
     def left(self, value):
         self._left = value
+
+    def __str__(self):
+        return f"{self.player.name}"

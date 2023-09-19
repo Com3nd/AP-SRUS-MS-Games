@@ -55,7 +55,7 @@ class Player:
         return self.score == other.score
 
     def __repr__(self):
-        return f"Player({self.score})"
+        return f"Player({self.uid}, {self.name})"
 
 
 if __name__ == "__main__":

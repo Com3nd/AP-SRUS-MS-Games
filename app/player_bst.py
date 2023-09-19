@@ -11,38 +11,50 @@ class NoRootNodeError(Exception):
 
 class PlayerBST:
     def __init__(self, node: Optional[PlayerBNode] = None):
-        self.root: Optional[PlayerBST] = node
-        self.node: Optional[PlayerBNode] = None
+        self._root: Optional[PlayerBNode] = node
 
-    # @property
-    # def root(self):
-    #     return self.root
+    @property
+    def root(self):
+        return self._root
 
-    def traverse(self, player: Player, tree: Optional[PlayerBST] = None) -> tuple[PlayerBST, str]:
-        if tree is None:
-            tree = self
+    def traverse(self, player: Player,
+                 current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
+        """A helper method to traverse the tree"""
 
-        root: PlayerBNode = tree.root  # type: ignore
+        if current_node is None:
+            current_node = self.root
 
-        if root is None:
+        if current_node is None:
             raise NoRootNodeError
 
-        if player.name > root.player.name:
-            if root.right:
-                return self.traverse(player, root.right)
+        if player.name > current_node.player.name:
+            if current_node.right:
+                return self.traverse(player, current_node.right)
             else:
-                return tree, "Right"
+                return current_node, "Right"
         else:
-            if root.left:
-                return self.traverse(player, root.left)
+            if current_node.left:
+                return self.traverse(player, current_node.left)
             else:
-                return tree, "Left"
+                return current_node, "Left"
 
     def insert(self, player: Player):
-        tree: PlayerBST = self.traverse(player)[0]
-        direction: str = self.traverse(player)[1]
+        node, direction = self.traverse(player)
+
         if direction == "Right":
-            tree.root.right = PlayerBST(PlayerBNode(player))
+            node.right = PlayerBNode(player)
 
         if direction == "Left":
-            tree.root.left = PlayerBST(PlayerBNode(player))
+            node.left = PlayerBNode(player)
+
+
+if __name__ == "__main__":
+    bst = PlayerBST(PlayerBNode(Player("02", "player_2")))
+    bst.insert(Player("03", "player_3"))
+    bst.insert(Player("04", "player_4"))
+    bst.insert(Player("05", "player_5"))
+    bst.insert(Player("01", "player_1"))
+    bst.insert(Player("08", "player_8"))
+    bst.insert(Player("07", "player_7"))
+    print()
+    print()
