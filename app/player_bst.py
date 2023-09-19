@@ -17,9 +17,9 @@ class PlayerBST:
     def root(self):
         return self._root
 
-    def traverse(self, player: Player,
-                 current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
-        """A helper method to traverse the tree"""
+    def _insert(self, player: Player,
+                current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
+        """A helper method to insert the tree"""
 
         if current_node is None:
             current_node = self.root
@@ -28,24 +28,37 @@ class PlayerBST:
             raise NoRootNodeError
 
         if player.name > current_node.player.name:
-            if current_node.right:
-                return self.traverse(player, current_node.right)
+            if current_node.right and player.name > current_node.right.player.name:
+                return self._insert(player, current_node.right)
             else:
                 return current_node, "Right"
         else:
-            if current_node.left:
-                return self.traverse(player, current_node.left)
+            if current_node.left and player.name < current_node.left.player.name:
+                return self._insert(player, current_node.left)
             else:
                 return current_node, "Left"
 
     def insert(self, player: Player):
-        node, direction = self.traverse(player)
+        node, direction = self._insert(player)
+        post_nodes: Optional[list[PlayerBNode]] = None
 
         if direction == "Right":
-            node.right = PlayerBNode(player)
+            if node.right is not None:
+                post_nodes = node.right.inorder_traversal()
+                node.right = PlayerBNode(player)
+                for player_node in post_nodes:
+                    self.insert(player_node.player)
+            else:
+                node.right = PlayerBNode(player)
 
         if direction == "Left":
-            node.left = PlayerBNode(player)
+            if node.left is not None:
+                post_nodes = node.right.inorder_traversal()
+                node.left = PlayerBNode(player)
+                for player_node in post_nodes:
+                    self.insert(player_node.player)
+            else:
+                node.right = PlayerBNode(player)
 
 
 if __name__ == "__main__":

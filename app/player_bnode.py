@@ -29,5 +29,19 @@ class PlayerBNode:
     def left(self, value):
         self._left = value
 
+    def inorder_traversal(self, result: Optional[list['PlayerBNode']] = None) -> list['PlayerBNode']:
+        if result is None:
+            result = []
+
+        if self.left:
+            self.left.inorder_traversal()
+
+        result.append(self)
+
+        if self.right:
+            self.right.inorder_traversal()
+
+        return result
+
     def __str__(self):
         return f"{self.player.name}"
