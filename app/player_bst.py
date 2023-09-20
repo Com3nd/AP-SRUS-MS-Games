@@ -109,8 +109,10 @@ class PlayerBST:
         # Remove the "--- title ---" part from the string
         output_string = str(chart)[:start_index] + str(chart)[end_index + 3:]
         mermaid = f"```mermaid\n{output_string}\n```"
-        with open("../node_graphs/node_graph_EXAMPLE.md", "w") as md_file:
+        with open("../node_graphs/node_graph.md", "w") as md_file:
             md_file.write(str(mermaid))
+        print("\nMermaid diagram written. Check ../node_graphs/node_graph.md " +
+              "\n\nIMPORTANT: Make sure to install Markdown plugin with mermaid extension")
 
 
 if __name__ == "__main__":
@@ -128,4 +130,4 @@ if __name__ == "__main__":
     bst.insert(Player("04", "player_1998"))
     bst.insert(Player("04", "player_15"))
     bst.insert(Player("04", "player_9"))
-    print(bst.write_graph())
+    bst.write_graph()
