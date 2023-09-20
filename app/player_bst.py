@@ -1,8 +1,8 @@
 from __future__ import annotations
 from player import Player
-from player import Player
 from typing import Optional
 from player_bnode import PlayerBNode
+from python_mermaid.diagram import MermaidDiagram
 
 
 class NoRootNodeError(Exception):
@@ -22,7 +22,7 @@ class PlayerBST:
     def root(self, value):
         self._root = value
 
-    def traverse(self, player: Player,
+    def traverse(self, player: Player,  # type: ignore
                  current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
         """A helper method to traverse the tree"""
 
@@ -32,19 +32,21 @@ class PlayerBST:
         if current_node is None:
             current_node = self.root
 
-        if player.name == current_node.player.name:
-            return current_node, "equal"
+        if current_node is not None:  # added this redundant if statement because mypy keeps thinking that
+            # current_node is of type "Any | PlayerBNode | None
+            if player.name == current_node.player.name:
+                return current_node, "equal"
 
-        if player.name >= current_node.player.name:
-            if current_node.right:
-                return self.traverse(player, current_node.right)
+            if player.name >= current_node.player.name:
+                if current_node.right:
+                    return self.traverse(player, current_node.right)
+                else:
+                    return current_node, "Right"
             else:
-                return current_node, "Right"
-        else:
-            if current_node.left:
-                return self.traverse(player, current_node.left)
-            else:
-                return current_node, "Left"
+                if current_node.left:
+                    return self.traverse(player, current_node.left)
+                else:
+                    return current_node, "Left"
 
     def insert(self, player: Player):
         node, result = self.traverse(player)
@@ -91,6 +93,25 @@ class PlayerBST:
             self.insert(node_list[1].player)
             node_list.pop(1)
 
+    def write_graph(self):
+        node_links = self.root.return_links()
+
+        chart_nodes = []
+        for node in self.to_list():
+            chart_nodes.append(node.graph_node)
+
+        chart = MermaidDiagram(
+            nodes=chart_nodes,
+            links=node_links
+        )
+        start_index = str(chart).find("---")
+        end_index = str(chart).find("---", start_index + 1)
+        # Remove the "--- title ---" part from the string
+        output_string = str(chart)[:start_index] + str(chart)[end_index + 3:]
+        mermaid = f"```mermaid\n{output_string}\n```"
+        with open("../node_graphs/node_graph_EXAMPLE.md", "w") as md_file:
+            md_file.write(str(mermaid))
+
 
 if __name__ == "__main__":
     bst = PlayerBST()
@@ -103,8 +124,8 @@ if __name__ == "__main__":
     bst.insert(Player("07", "player_7"))
     bst.insert(Player("04", "player_2"))
     bst.insert(Player("04", "player_19"))
+    bst.insert(Player("04", "player_199"))
+    bst.insert(Player("04", "player_1998"))
     bst.insert(Player("04", "player_15"))
-    # output = bst.search("player_15")
-    output = bst.to_list()
-    bst.balance_tree()
-    print(output)
+    bst.insert(Player("04", "player_9"))
+    print(bst.write_graph())

@@ -1,6 +1,5 @@
 from argon2 import PasswordHasher
 from typing import Optional
-# import random
 
 
 class Player:

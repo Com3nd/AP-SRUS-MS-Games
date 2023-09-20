@@ -1,5 +1,6 @@
 from player import Player
 from typing import Optional
+from python_mermaid.diagram import Node
 
 
 class PlayerNode:
@@ -7,6 +8,7 @@ class PlayerNode:
 
     def __init__(self, player: Optional[Player] = None):
         self._player = player
+        self.mer_node = Node(self.player.name, shape="circle")
         self._next_node: Optional[PlayerNode] = None
         self._prev_node: Optional[PlayerNode] = None
 

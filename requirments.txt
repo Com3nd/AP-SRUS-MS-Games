@@ -1,0 +1,2 @@
+python-mermaid
+argon2-cffi
