@@ -63,6 +63,8 @@ class PlayerBST:
         if result == "equal":
             return node
 
+        return None
+
 
 if __name__ == "__main__":
     bst = PlayerBST()
@@ -74,6 +76,5 @@ if __name__ == "__main__":
     bst.insert(Player("08", "player_8"))
     bst.insert(Player("07", "player_7"))
     bst.insert(Player("04", "player_2"))
-
     output = bst.search("player_2")
     print(output)
