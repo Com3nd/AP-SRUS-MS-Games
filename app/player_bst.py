@@ -18,6 +18,10 @@ class PlayerBST:
     def root(self):
         return self._root
 
+    @root.setter
+    def root(self, value):
+        self._root = value
+
     def traverse(self, player: Player,
                  current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
         """A helper method to traverse the tree"""
@@ -65,6 +69,28 @@ class PlayerBST:
 
         return None
 
+    def to_list(self):
+        return self.root.inorder_traversal()
+
+    def balance_tree(self):
+        """A method to balance the tree to have as equal amount of left and right nodes"""
+        node_list = self.to_list()
+
+        middle_index = len(node_list) // 2
+        middle_node = node_list[middle_index]
+
+        self.root = PlayerBNode(middle_node.player)
+
+        step = middle_index - 1
+        while step >= 0:
+            self.insert(node_list[step].player)
+            node_list.pop(step)
+            step -= 1
+
+        while len(node_list) > 1:
+            self.insert(node_list[1].player)
+            node_list.pop(1)
+
 
 if __name__ == "__main__":
     bst = PlayerBST()
@@ -76,5 +102,9 @@ if __name__ == "__main__":
     bst.insert(Player("08", "player_8"))
     bst.insert(Player("07", "player_7"))
     bst.insert(Player("04", "player_2"))
-    output = bst.search("player_2")
+    bst.insert(Player("04", "player_19"))
+    bst.insert(Player("04", "player_15"))
+    # output = bst.search("player_15")
+    output = bst.to_list()
+    bst.balance_tree()
     print(output)
