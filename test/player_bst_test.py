@@ -31,3 +31,12 @@ class TestPlayerBST(unittest.TestCase):
 
         player_five = self.bst.root.left.right.right.player
         self.assertEqual(player_five.name, Player("05", "player_5").name)
+
+    def test_search(self):
+        self.bst.insert(Player("09", "player_9"))
+        self.bst.insert(Player("03", "player_3"))
+        self.bst.insert(Player("04", "player_4"))
+        self.bst.insert(Player("05", "player_5"))
+
+        player_five = self.bst.root.left.right.right
+        self.assertEqual(player_five, self.bst.search("player_5"))

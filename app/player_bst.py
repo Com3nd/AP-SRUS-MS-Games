@@ -18,8 +18,8 @@ class PlayerBST:
     def root(self):
         return self._root
 
-    def _insert(self, player: Player,
-                current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
+    def traverse(self, player: Player,
+                 current_node: Optional[PlayerBNode] = None) -> tuple[PlayerBNode, str]:
         """A helper method to traverse the tree"""
 
         if self.root is None:
@@ -33,17 +33,17 @@ class PlayerBST:
 
         if player.name >= current_node.player.name:
             if current_node.right:
-                return self._insert(player, current_node.right)
+                return self.traverse(player, current_node.right)
             else:
                 return current_node, "Right"
         else:
             if current_node.left:
-                return self._insert(player, current_node.left)
+                return self.traverse(player, current_node.left)
             else:
                 return current_node, "Left"
 
     def insert(self, player: Player):
-        node, result = self._insert(player)
+        node, result = self.traverse(player)
 
         if result == "Right":
             node.right = PlayerBNode(player)
@@ -54,11 +54,19 @@ class PlayerBST:
         if result == "equal":
             node.player = player
 
+    def search(self, name: str) -> Optional[PlayerBNode]:
+        if self.root is None or self.root.player.name == name:
+            return self.root
+
+        node, result = self.traverse(Player("", name))
+
+        if result == "equal":
+            return node
+
 
 if __name__ == "__main__":
     bst = PlayerBST()
     bst.insert(Player("02", "player_2"))
-    print(bst.root.player.uid)
     bst.insert(Player("03", "player_3"))
     bst.insert(Player("04", "player_4"))
     bst.insert(Player("05", "player_5"))
@@ -66,4 +74,6 @@ if __name__ == "__main__":
     bst.insert(Player("08", "player_8"))
     bst.insert(Player("07", "player_7"))
     bst.insert(Player("04", "player_2"))
-    print(bst.root.player.uid)
+
+    output = bst.search("player_2")
+    print(output)
