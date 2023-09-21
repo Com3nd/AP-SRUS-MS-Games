@@ -33,7 +33,7 @@ class PlayerBST:
             current_node = self.root
 
         if current_node is not None:  # added this redundant if statement because mypy keeps thinking that
-            # current_node is of type "Any | PlayerBNode | None
+            # current_root is of type "Any | PlayerBNode | None
             if player.name == current_node.player.name:
                 return current_node, "equal"
 
@@ -74,24 +74,28 @@ class PlayerBST:
     def to_list(self):
         return self.root.inorder_traversal()
 
-    def balance_tree(self):
-        """A method to balance the tree to have as equal amount of left and right nodes"""
-        node_list = self.to_list()
+    def balance_tree(self, current_root: Optional[PlayerBNode] = None,
+                     node_list: Optional[list[PlayerBNode]] = None):
+        """A method to balance the binary search tree"""
+        if node_list is None:
+            node_list = self.to_list()
 
+        if len(node_list) == 0:
+            return
         middle_index = len(node_list) // 2
         middle_node = node_list[middle_index]
 
-        self.root = PlayerBNode(middle_node.player)
+        if current_root is None:
+            self.root = middle_node
 
-        step = middle_index - 1
-        while step >= 0:
-            self.insert(node_list[step].player)
-            node_list.pop(step)
-            step -= 1
+        if node_list is None:
+            node_list = []
 
-        while len(node_list) > 1:
-            self.insert(node_list[1].player)
-            node_list.pop(1)
+        current_root = node_list.pop(middle_index)
+        current_root.right = self.balance_tree(current_root, node_list[middle_index:])
+        current_root.left = self.balance_tree(current_root, node_list[:middle_index])
+
+        return current_root
 
     def write_graph(self):
         node_links = self.root.return_links()
@@ -104,6 +108,7 @@ class PlayerBST:
             nodes=chart_nodes,
             links=node_links
         )
+
         start_index = str(chart).find("---")
         end_index = str(chart).find("---", start_index + 1)
         # Remove the "--- title ---" part from the string
@@ -117,17 +122,20 @@ class PlayerBST:
 
 if __name__ == "__main__":
     bst = PlayerBST()
-    bst.insert(Player("02", "player_2"))
-    bst.insert(Player("03", "player_3"))
-    bst.insert(Player("04", "player_4"))
-    bst.insert(Player("05", "player_5"))
-    bst.insert(Player("01", "player_1"))
-    bst.insert(Player("08", "player_8"))
-    bst.insert(Player("07", "player_7"))
-    bst.insert(Player("04", "player_2"))
-    bst.insert(Player("04", "player_19"))
-    bst.insert(Player("04", "player_199"))
-    bst.insert(Player("04", "player_1998"))
-    bst.insert(Player("04", "player_15"))
-    bst.insert(Player("04", "player_9"))
+    bst.insert(Player("10", "John Smith"))
+    bst.insert(Player("11", "Emily Johnson"))
+    bst.insert(Player("12", "Michael Davis"))
+    bst.insert(Player("13", "Sarah Wilson"))
+    bst.insert(Player("14", "David Martinez"))
+    bst.insert(Player("15", "Jessica Anderson"))
+    bst.insert(Player("16", "Robert Brown"))
+    bst.insert(Player("17", "Jennifer Lee"))
+    bst.insert(Player("18", "William Jones"))
+    bst.insert(Player("19", "Linda Clark"))
+    bst.insert(Player("20", "Christopher Wright"))
+    bst.insert(Player("21", "Karen Adams"))
+    bst.insert(Player("22", "Matthew Taylor"))
+    bst.insert(Player("23", "Patricia Hall"))
+    bst.insert(Player("24", "Joseph White"))
+    bst.balance_tree()
     bst.write_graph()

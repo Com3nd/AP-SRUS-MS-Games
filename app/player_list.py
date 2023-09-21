@@ -37,11 +37,11 @@ class PlayerList:
             self.head = node
             return
 
-        # Assigning 'current_node' to head since it is not None
+        # Assigning 'current_root' to head since it is not None
         current_node = self.head
 
         while True:
-            # The next node is not none, assign 'current_node' to 'next_node'
+            # The next node is not none, assign 'current_root' to 'next_node'
             if current_node.next_node is not None:
                 current_node = current_node.next_node
                 continue
