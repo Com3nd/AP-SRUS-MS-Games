@@ -1,3 +1,4 @@
+import player
 from player import Player
 import unittest
 import random
@@ -21,9 +22,13 @@ class TestPlayer(unittest.TestCase):
         self.players[0].add_password("password")
         self.assertIs(self.players[0]._ph.verify(self.players[0]._hashed_password, "password"), True)
 
-    def test_verify_password(self):
+    def test_verify_correct_password(self):
         self.players[0].add_password("Password to verify")
         self.assertIs(self.players[0].verify_password("Password to verify"), True)
+
+    def test_verify_incorrect_password(self):
+        self.players[0].add_password("Password to verify")
+        self.assertIs(self.players[0].verify_password("Password"), False)
 
     def test_comparison_operators(self):
         self.players[0].score = 46

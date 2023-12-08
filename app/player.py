@@ -1,4 +1,5 @@
 from argon2 import PasswordHasher
+import argon2
 from typing import Optional
 # import random
 
@@ -32,7 +33,10 @@ class Player:
         self._hashed_password = self._ph.hash(password)
 
     def verify_password(self, password) -> bool:
-        return self._ph.verify(self._hashed_password, password)  # type: ignore
+        try:
+            return self._ph.verify(self._hashed_password, password)
+        except argon2.exceptions.VerifyMismatchError:
+            return False
 
     @staticmethod
     def bubble_sort(players: list['Player']):
